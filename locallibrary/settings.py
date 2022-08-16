@@ -33,7 +33,10 @@ SESSION_SAVE_EVERY_REQUEST = True
 
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://intense-anchorage-09494.herokuapp.com/',
+                 'http://intense-anchorage-09494.herokuapp.com/'
+                 'intense-anchorage-09494.herokuapp.com/'
+                 '127.0.0.1']
 
 
 # Application definition
