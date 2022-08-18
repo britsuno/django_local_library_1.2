@@ -1,9 +1,10 @@
 from django.db import models
+
 from django.contrib.auth.models import User
 from datetime import date
 
 class Genre(models.Model):
-    name = models.CharField(max_length=200, help_text='Enger a book genre (e.g. Science Fiction)')
+    name = models.CharField(max_length=200, help_text='Enter a book genre (e.g. Science Fiction)')
 
     def __str__(self):
         return self.name
@@ -23,6 +24,9 @@ class Book(models.Model):
     isbn = models.CharField('ISBN', max_length=13, unique=True, help_text='13 Character <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        ordering = ['title', 'author']
 
     def __str__(self):
        return self.title
@@ -65,11 +69,10 @@ class BookInstance(models.Model):
 
     class Meta:
         ordering = ['due_back']
-       
         permissions = (("can_mark_returned", "Set book as returned"),)
 
     def __str__(self):
-        return f'{self.id} ({self.book.title})'
+        return '{0} ({1})'.format(self.id, self.book.title)
 
 
 class Author(models.Model):
@@ -85,8 +88,6 @@ class Author(models.Model):
         return reverse('author-detail', args=[str(self.id)])
  
     def __str__(self):
-        return f'{self.last_name}, {self.first_name}'
+        return '{0}, {1}'.format(self.last_name, self.first_name)
 
-    class Meta:
-        ordering = ['last_name']
 # Create your models here.
